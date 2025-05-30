@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RFID Student Attendance System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #4CAF50;
+      padding: 1rem;
+      text-align: center;
+      color: white;
+      font-size: 1.5rem;
+    }
+    nav {
+      text-align: center;
+      margin-top: 10px;
+    }
+    nav a {
+      text-decoration: none;
+      margin: 10px;
+      color: #333;
+      font-weight: bold;
+    }
+    section {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      margin-top: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    #log {
+      margin-top: 15px;
+      background: #f9f9f9;
+      padding: 10px;
+      border-left: 4px solid #4CAF50;
+    }
+    footer {
+      text-align: center;
+      margin: 20px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    RFID Student Attendance System
+  </header>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#scan">Scan RFID</a>
+    <a href="#records">Attendance</a>
+    <a href="#admin">Admin</a>
+  </nav>
+  <section id="home">
+    <h2>Welcome</h2>
+    <p>This is a simple RFID-based student attendance system. Students scan their RFID cards to mark attendance.</p>
+  </section>
+  <section id="scan">
+    <h2>Simulate RFID Scan</h2>
+    <input type="text" id="studentId" placeholder="Enter Student RFID ID" />
+    <button class="btn" onclick="scanRFID()">Scan</button>
+    <div id="log"></div>
+  </section>
+  <section id="records">
+    <h2>Today's Attendance</h2>
+    <ul id="attendanceList"></ul>
+  </section>
+  <section id="admin">
+    <h2>Admin Login</h2>
+    <p><strong>Username:</strong> admin | <strong>Password:</strong> 1234</p>
+    <input type="text" id="adminUser" placeholder="Username" />
+    <input type="password" id="adminPass" placeholder="Password" />
+    <button class="btn" onclick="adminLogin()">Login</button>
+    <div id="adminMsg"></div>
+  </section>
+  <footer>
+    &copy; 2025 RFID Attendance System | Made by Fua 💚
+  </footer>
+  <script>
+    const attendance = [];
+    function scanRFID() {
+      const id = document.getElementById("studentId").value.trim();
+      if (id === "") {
+        alert("Please enter a student ID.");
+        return;
+      }
+      const time = new Date().toLocaleTimeString();
+      attendance.push({ id, time });
+      document.getElementById("log").innerHTML = `<strong>Success:</strong> Attendance marked for ${id} at ${time}`;
+      updateAttendanceList();
+      document.getElementById("studentId").value = "";
+    }
+    function updateAttendanceList() {
+      const list = document.getElementById("attendanceList");
+      list.innerHTML = "";
+      attendance.forEach((entry, index) => {
+        list.innerHTML += `<li>${index + 1}. Student ID: ${entry.id} - Time: ${entry.time}</li>`;
+      });
+    }
+    function adminLogin() {
+      const user = document.getElementById("adminUser").value;
+      const pass = document.getElementById("adminPass").value;
+      const msg = document.getElementById("adminMsg");
+
+      if (user === "admin" && pass === "1234") {
+        msg.innerHTML = `<span style="color:green;">Login successful. Welcome Admin!</span>`;
+      } else {
+        msg.innerHTML = `<span style="color:red;">Invalid credentials!</span>`;
+      }
+    }
+  </script>
+</body>
+</html>
